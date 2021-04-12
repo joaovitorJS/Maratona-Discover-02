@@ -6,7 +6,7 @@
   <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-layout">Layout</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-funcionalidades-adicionais">Funcionalidades adicionais</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#funcionalidades-adicionais">Funcionalidades Adicionais</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#memo-licença">Licença</a>
 </p>
 
@@ -44,7 +44,7 @@ Projeto desenvolvido durante a **Maratona Discover#02** oferecida pela [Rocketse
 
 Você pode visualizar o layout do projeto através [desse link](https://www.figma.com/file/s4fytPFbDiSkv4GPSfKaLE/Jobs-Planning). É necessário ter conta no [Figma](https://figma.com) para acessá-lo.
 
-## ⚙️ Funcionalidades Adicionais
+<h2 id="funcionalidades-adicionais"> ⚙️ Funcionalidades Adicionais</h2>
 
 - [x] Adicionar uma página 404, serve para quando a pessoa buscar uma rota que não existe na aplicação ver uma página de erro (404)
 
