@@ -31,3 +31,12 @@ aside .button + .button {
   width: 3rem;
   height: 3rem;
 }
+
+/*Style errors*/
+#form-job small {
+  display: block;
+  color: var(--color-delete);
+  margin-top: 0.5rem;
+  z-index: 999;
+  font-family: Inter;
+}

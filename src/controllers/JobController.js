@@ -1,23 +1,60 @@
 const Job = require('../models/Job');
 const Profile = require('../models/Profile');
 const JobUtils = require('../utils/JobUtils');
+const  yup = require('yup');
 
 module.exports = {
-  
   create(req, res) {
-    return res.render("job");
+    return res.render("job", {job: {}});
   },
 
   async save(req, res) {
 
-    await Job.create({
+    const data = {
       name: req.body.name,
       "daily-hours": req.body["daily-hours"],
-      "total-hours": req.body["total-hours"],
-      created_at: Date.now(),   // atribuindo uma nova data
-    });
+      "total-hours": req.body["total-hours"]
+    }
     
-    return res.redirect('/');
+    /*Validações*/
+    const dataSchema = yup.object().shape({
+      name: yup
+        .string()
+        .required("Nome do job é obrigatório!")
+        .min(1, "Nome do job nao pode ser vazio"),
+      "daily-hours": yup
+        .number()
+        .typeError("Número de horas por dia é obrigatório!")
+        .min(1, "Número de horas por dia deve ser maior que 0!"),
+      
+      "total-hours": yup
+        .number()
+        .typeError("Número de estimativa de horas é obrigatório!")
+        .min(1, "Número de estimativa de horas deve ser maior que 0!")
+    });
+
+    dataSchema.validate({
+      ...data,
+      name: data.name.trim()
+    }, {abortEarly: false})
+    .then(async (dataValided) => {
+      await Job.create({
+        ...dataValided,
+        created_at: Date.now(),   // atribuindo uma nova data
+      });
+
+      return res.redirect('/');
+    })
+    .catch(async (err) => {
+      const errs = await {
+        name: (err.inner.find((messageError) => (messageError.path === 'name'))) || null,
+        'daily-hours': (err.inner.find((messageError) => (messageError.path === 'daily-hours'))) || null,
+        'total-hours': (err.inner.find((messageError) => (messageError.path === 'total-hours'))) || null
+      }
+      
+      await req.flash("job_errors", errs);
+      return res.render("job", {job: data});
+    });
   },
 
   async show(req, res) {
@@ -45,9 +82,50 @@ module.exports = {
       created_at: Date.now()
     };
 
-    await Job.update(updatedJob, jobId);
+    /*Validações*/
+    const dataSchema = yup.object().shape({
+      name: yup
+        .string()
+        .required("Nome do job é obrigatório!")
+        .min(1, "Nome do job nao pode ser vazio"),
+      "daily-hours": yup
+        .number()
+        .typeError("Número de horas por dia é obrigatório!")
+        .min(1, "Número de horas por dia deve ser maior que 0!"),
+      
+      "total-hours": yup
+        .number()
+        .typeError("Número de estimativa de horas é obrigatório!")
+        .min(1, "Número de estimativa de horas deve ser maior que 0!")
+    });
 
-    res.redirect('/job/' + jobId);
+    dataSchema.validate({
+      ...updatedJob,
+      name: updatedJob.name.trim()
+    }, {abortEarly: false})
+    .then(async (dataValided) => {
+
+      await Job.update(dataValided, jobId);
+
+      res.redirect('/job/' + jobId);
+    })
+    .catch(async (err) => {
+      let errs = {
+        name: (err.inner.find((messageError) => (messageError.path === 'name'))) || null,
+        'daily-hours': (err.inner.find((messageError) => (messageError.path === 'daily-hours'))) || null,
+        'total-hours': (err.inner.find((messageError) => (messageError.path === 'total-hours'))) || null
+      }
+      
+      errs = {
+        name: errs.name?.errors[0],
+        'daily-hours': errs['daily-hours']?.errors[0],
+        'total-hours': errs['total-hours']?.errors[0],
+      }
+
+      await req.flash("job_errors", errs);
+      
+      res.redirect('/job/' + jobId);
+    });
   },
 
   async delete(req, res) {
