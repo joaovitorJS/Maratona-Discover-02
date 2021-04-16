@@ -33,6 +33,9 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - EJS
 - Express
 - SQLite
+- Yup
+- Express-Flash-Messages
+- Express-session
 
 ## 💻 Projeto
 
@@ -46,7 +49,9 @@ Você pode visualizar o layout do projeto através [desse link](https://www.figm
 
 <h2 id="funcionalidades-adicionais"> ⚙️ Funcionalidades Adicionais</h2>
 
-- [x] Adicionar uma página 404, serve para quando a pessoa buscar uma rota que não existe na aplicação ver uma página de erro (404)
+- [x] Adicionar uma página 404, serve para quando a pessoa buscar uma rota que não existe na aplicação ver uma página de erro (404);
+- [X] Validação no formulário de casdatrar/editar os jobs, e apresentar as mensagens de erros caso houver algum.
+
 
 ## :memo: Licença
 

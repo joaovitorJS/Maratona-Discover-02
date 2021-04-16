@@ -27,16 +27,21 @@
     <%- include("parts/page-header", {title: "Adicionar Novo Job"}) %> 
 
     <div class="container flex animate-up delay-2">
-      <main>
+      <main>      
         <form id="form-job" actions="/job" method="POST">
-
+          <% const m = getMessages()%>
           <fieldset>
             <legend>Dados do Job</legend>
             <div class="separator light"></div>
 
             <div class="input-wrapper">
               <label for="name">Nome do Job</label>
-              <input type="text" id="name" name="name" />
+              <input type="text" id="name" name="name" value="<%=job?.name%>"/>
+              <% if (m.job_errors) { %>
+                <% m.job_errors.forEach((element) => { %>
+                  <small><%= ((element.name !== null) ? element.name : "") %></small>
+                <% }) %>
+              <% } %>
             </div>
 
             <div class="input-group">
@@ -47,7 +52,13 @@
                   type="number"
                   step="0.1" 
                   id="daily-hours" 
-                  name="daily-hours"/>
+                  name="daily-hours"
+                  value="<%=job?.["daily-hours"]%>"/>
+                <% if (m.job_errors) { %>
+                  <% m.job_errors.forEach((element) => { %>
+                    <small><%= (element["daily-hours"] !== null ? element["daily-hours"] : "") %></small>
+                  <% }) %>
+                <% } %>
               </div>
 
               <div class="input-wrapper">
@@ -56,11 +67,16 @@
                 <input 
                   type="number"
                   id="total-hours" 
-                  name="total-hours" />
+                  name="total-hours" 
+                  value="<%=job?.["total-hours"]%>" />
+                <% if (m.job_errors) { %>
+                  <% m.job_errors.forEach((element) => { %>
+                    <small><%= ((element["total-hours"]) !== null ? element["total-hours"] : "") %></small>
+                  <% }) %>
+                <% } %>
               </div>
             </div>
           </fieldset>
-    
         </form>
       </main>
       <aside class="card">
@@ -85,6 +101,7 @@
           </a>
         </div>
       </aside>
+      
       
     </div>
     <!-- end container -->
