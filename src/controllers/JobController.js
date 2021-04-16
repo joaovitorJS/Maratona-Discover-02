@@ -46,10 +46,16 @@ module.exports = {
       return res.redirect('/');
     })
     .catch(async (err) => {
-      const errs = await {
+      let errs = {
         name: (err.inner.find((messageError) => (messageError.path === 'name'))) || null,
         'daily-hours': (err.inner.find((messageError) => (messageError.path === 'daily-hours'))) || null,
         'total-hours': (err.inner.find((messageError) => (messageError.path === 'total-hours'))) || null
+      }
+
+      errs = {
+        name: errs.name?.errors[0],
+        'daily-hours': errs['daily-hours']?.errors[0],
+        'total-hours': errs['total-hours']?.errors[0],
       }
       
       await req.flash("job_errors", errs);
